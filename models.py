@@ -28,5 +28,11 @@ class History(BaseModel):
     name = TextField()
 
 
+class Order(BaseModel):
+    user_id = TextField()
+    time_to_cook = TimeField()
+    costRubles = IntegerField()
+
+
 db.connect()
-db.create_tables([Product, History])
+db.create_tables([Product, History, Order])

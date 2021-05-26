@@ -1,8 +1,7 @@
 from main import app
 
 from keyboards import Keyboard
-from models import Product, History
-from messageTemplates import MessageTemplate
+from models import Product, History, Order
 
 @app.message_handler(commands=["start"])
 def start(message):
@@ -15,7 +14,7 @@ def show_products(message):
     for i in products:
         app.send_photo(
             message.chat.id,
-            caption=MessageTemplate.product.format(i.name, i.costRubles, i.timeCooked, i.description), 
+            caption="Имя: {}\nЦена: {}р\nВремя приготовления:{}\n{}".format(i.name, i.costRubles, i.timeCooked, i.description), 
             photo=i.image,
             reply_markup=Keyboard.product_inline_keyboard(str(i.id), str(message.from_user.id))
             )
@@ -73,3 +72,37 @@ def changeKeyboard(message):
         message.chat.id, 
         "Вы перешли в главное меню",
         reply_markup=Keyboard.base_keyboard())
+
+@app.message_handler(func=lambda m: m.text == "Список заказов")
+def listOfOrders(message):
+    orders = Order.select()
+    for order in orders:
+        app.send_message(
+            message.chat.id,
+            "Время приготовления заказа: {}\nстоимость: {}р".format(
+                order.time_to_cook, order.costRubles
+            )
+        )
+
+@app.message_handler(func=lambda m: m.text == "Заказать")
+def order(message):
+    history = History.get(name=message.from_user.id)
+
+    if not len(history.products_id):
+        app.send_message(
+            message.chat.id,
+            "У вас пустая корзина"
+        )
+        return None
+
+    cost = sum(map(lambda x : Product.get(id=x).costRubles, history.products_id))
+
+    time = max(map(lambda x : Product.get(id=x).timeCooked, history.products_id))
+
+    Order.create(user_id=message.from_user.id, time_to_cook=time, costRubles=cost)
+    history.products_id = []
+    history.save()
+    app.send_message(
+        message.chat.id,
+        "Заказ на сумму {}\nбудет готов через {}".format(cost, time)
+    )

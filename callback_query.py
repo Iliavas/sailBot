@@ -2,7 +2,6 @@ from main import app
 
 from keyboards import Keyboard
 from models import Product, History
-from messageTemplates import MessageTemplate
 
 
 @app.callback_query_handler(func=lambda m : m.data.split()[0] == "delete")

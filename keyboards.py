@@ -7,6 +7,7 @@ class Keyboard:
         keyboard = ReplyKeyboardMarkup()
         keyboard.add(KeyboardButton("Посмотреть корзину"))
         keyboard.add(KeyboardButton("Посмотреть меню"))
+        keyboard.add(KeyboardButton("Список заказов"))
         return keyboard
     
 
@@ -15,6 +16,7 @@ class Keyboard:
         keyboard = ReplyKeyboardMarkup()
         keyboard.add(KeyboardButton("Очистить корзину"))
         keyboard.add(KeyboardButton("Посмотреть стоимость"))
+        keyboard.add(KeyboardButton("Заказать"))
         keyboard.add(KeyboardButton("Назад"))
         return keyboard
     
