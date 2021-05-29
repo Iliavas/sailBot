@@ -1,12 +1,14 @@
 from peewee import *
 from playhouse.postgres_ext import ArrayField
 
+from config import DB_HOST, DB_NAME, DB_PORT, DB_USER, DB_PASSWORD
+
 db = PostgresqlDatabase(
-    'bot',
-    user="postgres",
-    password="Ilvas2006",
-    host="localhost",
-    port=5432
+    DB_NAME,
+    user=DB_USER,
+    password=DB_PASSWORD,
+    host=DB_HOST,
+    port=DB_PORT
 )
 
 

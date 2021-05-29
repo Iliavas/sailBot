@@ -22,13 +22,13 @@ class Keyboard:
     
 
     @staticmethod
-    def product_inline_keyboard(Type:str, user_id:str):
+    def product_inline_keyboard(product_id:str, user_id:str):
         keyboard = InlineKeyboardMarkup()
-        keyboard.add(InlineKeyboardButton("Добавить в корзину", callback_data="add {} {}".format(Type, user_id)))
+        keyboard.add(InlineKeyboardButton("Добавить в корзину", callback_data="add {} {}".format(product_id, user_id)))
         return keyboard
     
     @staticmethod
-    def delete_inline_keyboard(Type:str, user_id:str):
+    def delete_inline_keyboard(product_id:str, user_id:str):
         keyboard = InlineKeyboardMarkup()
-        keyboard.add(InlineKeyboardButton("Удалить из корзины", callback_data="delete {} {} ".format(Type, user_id)))
+        keyboard.add(InlineKeyboardButton("Удалить из корзины", callback_data="delete {} {} ".format(product_id, user_id)))
         return keyboard

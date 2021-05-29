@@ -18,7 +18,6 @@ def show_products(message):
             photo=i.image,
             reply_markup=Keyboard.product_inline_keyboard(str(i.id), str(message.from_user.id))
             )
-        app.send_message(message.chat.id, "----")
 
 
 @app.message_handler(func=lambda m: m.text == "Посмотреть корзину")
@@ -47,6 +46,7 @@ def getTrash(message):
             reply_markup=Keyboard.delete_inline_keyboard(str(product.id), message.from_user.id)
         )
 
+
 @app.message_handler(func=lambda m: m.text == "Очистить корзину")
 def removeTrash(message):
     history = History.get(name=message.from_user.id)
@@ -57,8 +57,11 @@ def removeTrash(message):
 
 @app.message_handler(func=lambda m: m.text == "Посмотреть стоимость")
 def show_cost(message):
-    history = History.get(name=message.from_user.id)
-
+    try:
+        history = History.get(name=message.from_user.id)
+    except:
+        app.send_message(message.chat.id, "У вас нет корзины")
+        return None
     total_cost = 0
 
     for i in history.products_id:

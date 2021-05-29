@@ -7,4 +7,11 @@ with open("images/morkov.jpg", "rb") as f:
 
 
 with open("images/ogurec.jpg", "rb") as f:
-    product = Product.create(name="Огурец", description="Это вкусный огурец", costRubles=100, image=f.read(), timeCooked=datetime.time(hour=0, minute=20, second=30))
+    product = Product.create(
+        name="Огурец", 
+        description="Это вкусный огурец", 
+        costRubles=100, 
+        image=f.read(), 
+        timeCooked=datetime.time(hour=0, minute=20, second=30)
+    )
+    product.save()
